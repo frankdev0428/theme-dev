@@ -1,0 +1,45 @@
+  <style>#FeatureRowImage-feature-row {
+      max-width: 545.0px;
+      max-height: 545px;
+    }
+  
+    #FeatureRowImageWrapper-feature-row {
+      max-width: 545.0px;
+    }
+  </style>
+<div class="page-width feature-row">
+  <div class="feature-row">      
+  {% capture image_layout %}
+    <div class="feature-row__item ">
+  
+            {%- assign img_url = 'img.jpg' | asset_img_url: '500x' -%}
+            <div id="FeatureRowImageWrapper-feature-row" class="feature-row__image-wrapper js">
+              <div style="padding-top:100.0%;">
+                  <img
+                     class="feature-row__image lazyload"
+                     data-src="{{ img_url }}"
+                     data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                     data-aspectratio="1.0"
+                     data-sizes="auto">
+            </div>
+              </div>
+        </div>
+  {% endcapture %}
+
+    {% if orientation != 'reverse' %}
+      {{ image_layout }}
+    {% endif %}
+    
+    <div class="feature-row__item feature-row__text feature-row__text--left">
+        <h2 class="h3">Image with text</h2>
+        <div class="rte rte-setting featured-row__subtext"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</p></div>
+    </div> 
+
+    {% if orientation == 'reverse' %}
+      {{ image_layout }}
+    {% endif %}
+  
+  </div>
+</div>

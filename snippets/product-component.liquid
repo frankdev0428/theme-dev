@@ -1,0 +1,31 @@
+
+  
+    <li class="grid__item small--one-half medium-up--one-quarter" style="max-width:20%">
+        <div class="grid-view-item product-card {% unless product.available %} grid-view-item--sold-out{% endunless %}">
+      <a class="grid-view-item__link grid-view-item__image-container full-width-link"
+        href="{{ product.url }}">
+      </a>
+
+      <div class="grid-view-item__image-wrapper product-card__image-wrapper">
+        {{ product.featured_image | img_url:'500x500' | img_tag | class: 'grid-view-item__image' }}
+      </div>
+      
+      <div class="h4 grid-view-item__title product-card__title" aria-hidden="true"> {{ product.title }} </div>
+
+      <dl class="price price--listing {% unless product.available %} price--sold-out{% endunless %} ">
+        <div class="price__regular">
+          <span class="price-item price-item--regular"> {{ product.price | money }} </span>
+        </div>
+
+        <div class="price__badges price__badges--listing">
+          <span  class="price__badge price__badge--sold-out"} >
+            <span>Sold out</span>
+          </span>
+        </div>
+        {% if product.available %}
+        <a href="/cart/add?id={{ product.first_available_variant.id }}" class="btn">Quick Add</a>
+        {% endif %}
+      </dl>
+    </div>
+  </li>
+  

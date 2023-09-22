@@ -1,0 +1,799 @@
+{%- comment -%} 
+Befor starting, please make sure you have:
+
+1) Imported our sandbox-products.csv
+2) Created two automated collections.
+"men" = all products tagged with "men"
+"women" = all products tagged with "women"
+{%- endcomment -%}
+
+
+
+
+
+
+
+<section class="challenge">
+<!--Challenge 1: Data Output -->
+
+<!-- 
+a.) Create an h1-element containing the Name of your Online-Shop using Liquid.
+-->
+  
+   <h1>{{  shop.name}}</h1>
+     
+
+  
+<!-- 
+b.) Create an H2 element that displays the number of items in the cart
+(You can test your solution by adding products to the cart and going back to the homepage)
+Expected result: <h2> Your cart contains X item(s) </h2>
+-->
+
+ <h2>Your cart contains ({{ cart.item_count }} items)</h2>
+
+
+
+<!-- 
+c.) When you visit a product page, the Liquid Object {{ product }} always refers to the product you're currently viewing.
+On any other page (e.g. homepage), we can access a specific product by using {{ all_products['product-handle'] }}.
+Here we just need to fill in the correct product-handle. Example: {{ all_products['my-awesome-tshirt'] }}
+The product handle can be found in the URL, when you visit a product page.
+
+Try to create an h2-element, displaying the title of a specific product of your choice. 
+-->
+   {% assign product_handle = 'floral-white-top' %}  
+   {% if all_products[product_handle] %} 
+    <h2> {{ all_products[product_handle].title }}</h2>
+   {% endif %}
+<!-- End Challenge 1 -->
+</section>
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!--Challenge 2: Filters -->
+
+  <!--  
+  {% raw %}
+  Hint:
+  In this challenge, we will be using a lot of data from one specific product. 
+  If you don't want to use the long form {{ all_products['my-awesome-tshirt'] }} the entire time,
+  you can store your product in a new variable instead: {% assign product = all_products['my-awesome-tshirt'] %}. 
+  Going forward you can now use 
+  {{ product.title }} instead of {{ all_products['my-awesome-tshirt'].title }}, which is a lot cleaner and easier to read.
+  {% endraw %}
+  --> 
+
+
+<!-- 
+a.) Assign a new variable that contains a specific product of your choice.  
+    Then create a div-element and display the product title, by using the variable you've just assigned. 
+-->
+
+
+
+
+<!-- 
+b.) Now use a Liquid Filter to turn every letter of the product title into an upper-case lettter.
+-->
+
+
+
+
+
+<!-- 
+c.) Create a paragraph tag and put out the product price. 
+Use a Filter to properly format the price and display it in the stores' currency.
+-->
+
+
+
+
+
+
+<br><!-- 
+d.) In plain text, render the URL of the featured product image. 
+Try to paste this URL into your browser and see if you can view the image.
+
+Hint: try to use a media filter called img_url. 
+If you don't add any additional parameters to the filter, the displayed image will be small in resolution, but that's okay for now.
+-->
+
+
+
+
+
+
+<br><br><!-- 
+e.) Shopify can serve images in various dimensions, which can be relevant for the page performance / page loading time.
+Copy your solution from above, and render the same image URL one more time down below. 
+This time try to use the img_url filter in a way so that the image width is 200px (basewidth 200px, height auto). 
+!-->
+
+
+
+
+  
+
+<br><br><!-- 
+f.) So far we've just been rendering the Image URLs in plain text.
+Now we want to actually display both images (the small preview image, and the 200x width)
+Copy your solutions from above try to also add an img_tag filter at the end, to display them.
+-->
+
+
+
+
+
+
+  
+<br><!-- 
+g.) Add a button down below that let's you add the product to the cart.
+(This Can just be a clickable link (a-tag) that reads "add to cart". 
+If you want to style the button, you can add the CSS class "btn" to your a-tag.) 
+
+Hint:
+The easiest way of adding a product to the cart is by clicking a link that points to:
+/cart/add?id=1234
+
+Hereby the ID referes to the corresponding variant ID.
+It's important to note that the variant-ID is different from the product-ID.
+
+To proivde some context:
+In Shopify, every product has at least one variant.
+Even if we don't have multiple color- or size-options to choose from. 
+
+In that case it's kind of like a "hidden variant" that represents the product itself. 
+(But the variant-ID is still different form the product-ID.)
+
+To get the correct ID, you may want to take a look at the product object and a property called "first_available_variant".
+This variant object will hold the correct ID.
+--> 
+
+
+
+  
+  
+  
+<!-- End Challenge 2 -->
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!-- Challenge 3: More advanced data output and Logic tags -->
+
+<!--
+So far we have been looking at very isolated cases. (e.g. render the product title into a stand-alone h2)
+In real themes though, we usually find a lot of additional markup.
+Therefore, we have to practise maintaining an overview, and learn how to navigate in markup that might seem more complex at first.
+-->
+
+
+<!--
+To get started, remove the liquid-comment-tags down below and work directly in the provided markup.
+
+Here are the subtasks:
+  a.) Fill in the product title using Liquid
+  b.) Fill in the product price using Liquid
+  c.) Fill in the product page URL. (Redirect to the product page, when someone clicks the element)
+  d.) Right on top of our markup, you'll find an if-statement, that is supposed to check whether the product is currently available or not.
+      In case the product is sold out, we assign a flag-variable called "isSoldOut = true"
+      
+      In the markup, some elements and CSS classes are only rendered depending on whether this flag-variable is true or not.
+      (For exmaple: See the Quick Add To Cart Button, or the sold-out CSS class that we find on the product price listing. )  
+
+      Your job here is to complete the if-statement on top. 
+      Replace the three dots "..." with an actual condition, that checks if the product is available.
+
+      To test your implementation, try to replace the product handle "classic-varsity-top" with the "yellow-wool-jumper".
+      The classic-varsity-top should be available. 
+      The yellow-wool-jumper should be sold out.
+--> 
+
+
+
+
+{% comment %}
+{% assign product = all_products['classic-varsity-top'] %}
+
+{% assign isSoldOut = false %}
+{% if ... %}
+  {% assign isSoldOut = true %}
+{% endif %}
+
+
+<ul class="grid grid--uniform grid--view-items">
+  <li class="grid__item small--one-half medium-up--one-quarter">
+    
+    <div class="grid-view-item product-card {% if isSoldOut %} grid-view-item--sold-out{% endif %}">
+      
+      <a class="grid-view-item__link grid-view-item__image-container full-width-link"
+          href="PRODUCT URL">
+      </a>
+
+      <div class="grid-view-item__image-wrapper product-card__image-wrapper">
+        {{ product.featured_image | img_url:'500x500' | img_tag | class: 'grid-view-item__image' }}
+      </div>
+      
+      <div class="h4 grid-view-item__title product-card__title" aria-hidden="true"> PRODUCT TITLE </div>
+
+      <dl class="price price--listing {% if isSoldOut %}price--sold-out{% endif %} ">
+        <div class="price__regular">
+          <span class="price-item price-item--regular"> PRODUCT PRICE </span>
+        </div>
+
+        <div class="price__badges price__badges--listing">
+          <span  class="price__badge price__badge--sold-out"} >
+            <span>Sold out</span>
+          </span>
+        </div>
+        {% unless isSoldOut %}
+        <a href="/cart/add?id={{ product.first_available_variant.id }}" class="btn">Quick Add</a>
+        {% endunless %}
+      </dl>
+  
+    </div>
+    
+  </li>
+</ul>
+{% endcomment %}
+
+
+
+<!-- End Challenge 3 -->
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!--Challenge 4: Arrays and For-Loops-->
+
+ 
+<!-- 
+Hint:
+Oftentimes we use for-loops to iterate over the elements in an array.
+You can think of an "array" as if it was a simple list of elements. 
+
+For example, a collection is usually just an array (list) of different products:
+0 → tshirt
+1 → bag
+2 → glasses
+3 → pants
+
+(The first index starts with #0, because historically it was more memory efficient than starting with a #1)
+
+If we want to access a specific  element of the array, we can use square brackets and the element's index.
+
+  {% raw %}
+  Example:  {{ my_collection_array[2] }} => glasses
+  {% endraw %}
+
+  
+In liquid, there is no easy way to create arrays from scratch, but we encounter them in several of the exisitng liquid objects.
+  
+For instance, a collection holds an array (a list) of different products
+
+A product may have an array (a list) of different product images
+
+A product may also have an array (a list) of different product tags
+
+A product may have an array (a list) of different variants
+
+A website visitor might have an array (a list) of different items in the cart.
+
+Knowing how to work with arrays / and for-loops is therefore an important skill, that we need to practise. :-) 
+-->
+
+
+
+<!-- 
+a.)  
+Assign a variable holding the "ocean-blue-shirt".
+This product has 3 different product tags ("new-arrival", "men", "limited"). (An array of 3 elements)
+
+Create an unordered list (<ul>), with 3 list items (<li>) to display the tags. 
+For this first task, try to access the elements directly, by using their index and the square-bracket-notation. 
+(As seen in the example above, and not by using a for loop)
+-->
+
+
+
+  
+  
+    
+<!--
+b.) 
+Now try to repeat the exercise above, by using a for-loop.
+(for each tag in the product.tags, render a list item. )
+-->
+
+
+
+
+  
+<br><br><!--
+c.) 
+Adjust your for-loop, so that the tag-name and the position are displayed. (starting with #1). 
+Expected outcome:
+
+  <ul>
+    <li>limited 1</li>
+    <li>men 2</li>
+    <li>new-arrival 3</li>
+  </ul>
+
+Hint: In Liquid we have access to a variable called: "forloop.index" (which holds the number of the current iteration).
+--> 
+
+  
+
+
+  
+
+<br><br><!-- 
+d.) Adjust your for-loop, to render the "limited" tag in red-text color.
+    hint: You can use inline CSS and an if-condition based on the tag name. 
+-->
+
+  
+
+
+  
+
+
+
+  
+<!-- 
+e.) Create an h2-element and use a liquid filter to display the size of the array (number of elements).
+-->
+
+  
+  
+  
+<!-- End Challenge 4 -->
+</section>
+
+{% endcomment %}
+
+
+
+ 
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!--Challenge 5: For-Loops -->
+
+  
+<!-- 
+a.)
+Your automated collection "Women", should contain 14 products.
+Create an unordred-list and write a for loop that renderes each product title as a list-item. 
+
+Hint: 
+Similar to accessing individual products by using "all_products" we can access a specific collection 
+by using the global collections object: collections['women']
+Also note that collection object might have more properties than just the contained products. (title, description, products, image, id, etc...)
+-->
+
+
+
+
+
+  
+<!-- 
+b.) Now also append the current iteration index to the output
+Expected result:
+"Product title" 1
+"Product title" 2
+"Product title" 3
+...
+-->
+
+  
+
+  
+<!-- 
+c.) 
+Imagine we only want to display the first 8 products in that collection.
+Try to cancel your iteration after the 8th element using the "break" keyword.
+-->
+  
+
+  
+<!-- 
+d.) Adjust your for-loop to display all products in the collection that are available
+-->
+
+
+  
+
+<!-- 
+e.) 
+  Instead of just rendering the title, we now want to render a nice product card for each product.
+  Down below you can find markup that already contains the unordrered-list and one list-item.
+  Add a for-loop, that renders a list item for each product in the women's collection.
+  Then also implement logic to skip all products, that are currently unavailable. 
+-->
+  
+
+  {% comment %}
+  <ul class="grid grid--uniform grid--view-items">
+  
+    <li class="grid__item small--one-half medium-up--one-quarter" style="max-width:20%">
+        <div class="grid-view-item product-card {% unless product.available %} grid-view-item--sold-out{% endunless %}">
+      <a class="grid-view-item__link grid-view-item__image-container full-width-link"
+        href="{{ product.url }}">
+      </a>
+
+      <div class="grid-view-item__image-wrapper product-card__image-wrapper">
+        {{ product.featured_image | img_url:'500x500' | img_tag | class: 'grid-view-item__image' }}
+      </div>
+      
+      <div class="h4 grid-view-item__title product-card__title" aria-hidden="true"> {{ product.title }} </div>
+
+      <dl class="price price--listing {% unless product.available %} price--sold-out{% endunless %} ">
+        <div class="price__regular">
+          <span class="price-item price-item--regular"> {{ product.price | money }} </span>
+        </div>
+
+        <div class="price__badges price__badges--listing">
+          <span  class="price__badge price__badge--sold-out"} >
+            <span>Sold out</span>
+          </span>
+        </div>
+        {% if product.available %}
+        <a href="/cart/add?id={{ product.first_available_variant.id }}" class="btn">Quick Add</a>
+        {% endif %}
+      </dl>
+    </div>
+  </li>
+  
+</ul>
+{% endcomment %}
+
+
+  
+<!-- End Challenge 5 -->
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!-- Challenge 6 - Working with Texts -->
+
+
+{% assign product_list = 'tshirt, pullover, pants' %}
+
+<br><!--
+a) Assign a new variable called 'extended_product_list', which is based on the initial string, but we also append ', shoes'.
+   To confirm your solution, put out your new variable to the front-end.
+-->
+
+
+  
+<br><!--
+b)  Try to assign a 3rd variable called 'new_product_list', which is based on your extended_product_list.
+    The word 'pullover' should be replaced by 'sweater'. 
+    To confirm it worked, also display the 'new_product_list' on the front-end.
+--> 
+
+
+<!--
+c) Down below, we find a bit of customer data.
+  {% assign customer_data = 'John Doe, 28 years, repeated-customer, order-value:100, city:NYC' %}
+  
+  To our customers in NYC, we want to offer a discount code if they are also a repeated-customer.
+  
+  In order to stay organized, we want to perform the data checks separately, on top the file.   
+  That's mainly because we might add further checks in the future, or even more extensive ones, 
+  and then it's good to have them all in one place.
+  
+  If a condition is met, we can just set a flag-variable to "true", that we later check in the markup. 
+  I already started working on it, but couldn't finish in time. Can you help me finalize the data checks?
+
+  (to get started you can remove the most outer comment tags)
+
+--> 
+
+{% comment %}
+  
+  {% comment%} check if the customer is a repeated-customer {% endcomment%}
+  {% assign is_repeated_customer = false %}
+  {% if customer_data ... %}
+   {% assign is_repeated_customer = true %}
+  {% endif %}
+
+  {% comment%} check if the customer lives in NYC {% endcomment%}
+  {% assign lives_in_nyc = false %}
+  {% if customer_data ... %}
+   {% assign lives_in_nyc = true %}
+  {% endif %}
+  
+  
+  <div class="order confirmation">
+    <h1> Order complete! </h1>
+      
+    {% if is_repeated_customer and lives_in_nyc %} 
+    <p> Thank you for being a loyal customer! Here is a 10% discount code for your next purchase: sale10.</p>
+    {% endif %}
+    
+  </div>
+
+{% endcomment %}
+  
+
+
+<!--
+d) Previously I mentioned, that there is no real way to create an array from scratch in Liquid. 
+This is mostly true, except for one work-around, by using the Liquid split filter. 
+
+In the example below you'll see the that I assigned a long string of text, 
+which contains several keywords that are comma separated.
+
+When we split the text-string by that comma-character, all the individual pieces will be stored in an array.
+For the following challenge, just imagine these were the tags we added on a product (product.tags).
+--> 
+  
+{% assign keywords = 'pullover,winter,sale,limited,new' %}
+{% assign tags = keywords | split: ',' %}
+
+
+<!--
+To confirm that the tags-variable is indeed an array, 
+write a for loop that iterates over the tags and puts them out to the front-end. (in a list)
+--> 
+
+
+
+  
+  
+
+<!-- 
+e)  
+  Down below you'll find a variable holding all the social links, where a certain product can be seen. (Separated by comma)
+  
+  {% assign social_link_data  = 'instagram_url:https://instagram.com,facebook_url:https://facebook.com,tiktok_url:https://tiktok.com' %}
+
+
+   The basic product data, such as title, price etc, is already rendered in the markup down below. 
+   If the social_links contain a "facebook_link", we also want to show a link/button that reads "See on Facebook". 
+   The exact link to can be extracted from the data.
+
+   Hint: Try to split the links, and check them individually in a for loop. 
+   If you find a Facebook link, extract the URL and render it in a button / a-tag.
+  
+-->
+
+{% comment %}
+  
+  <div class="product-card"> 
+   <h2 class="h2 product-title"> Pullover </h2>
+   <h3 class="h3 limited time offer"> limited time offer!</h3>
+   <h3 class="product-price"> $15 </h3>
+    
+  </div>
+{% endcomment %}
+  
+
+  
+<!--End Challenge 6 -->
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!-- Challenge 7 : Debugging-->
+
+<!-- 
+I've been trying to implement a similar feature on a different store but couldn't quite get it to work.
+Could you take a look at my script and try to fix it?
+
+Requirements:
+The client wants to have a "see on instagram"-button for some of his products.
+On the backend he is adding a special tag to those products in the following format
+  "instagram_link:url-to-instagram-page"
+
+If the tag is present, the "see-on-instagram"-button should become visible and the URL should be extracted from the tag.
+
+I have no idea why the button is currently not showing up.
+When I had it showing, the url wasn't correct either.
+The product image is also not displaying properly.
+
+Hope you can help me to fix this.
+We can use the product with the handle "classic-leather-jacket" as an example.
+  
+-->   
+  
+
+  {% assign product = all_products['classic-leather-jacket'] %}
+  {% assign has_instagram_link = false %}
+
+  
+  {% for tag in product.tags %}
+  
+    {% if tag == 'instagram_link' %}
+	
+      {% assign has_instagram_link = true %}
+  	  {% assign link = tag | split: ':'  %}
+  	   
+    {% endif%}
+  
+  {% endfor %}
+
+  
+  <div class="product-gallery">
+    <img src="{{ product.featured_image }}" />
+    <h6>{{product.title}}</h6>
+  
+    {% if has_instagram_link %}
+    <a class="btn" href="{{link}}"> See on Instagram </a>
+    {% endif %}
+  </div>
+
+
+  
+  
+<!-- End Challenge 7 -->
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+<section class="challenge">
+<!-- Challenge 8:  Liquid Render Tags -->
+
+  
+<!-- 
+a) In Liquid, we can separate code into multiple files. This helps with staying organized and re-using code.
+The snippet folder of this Sandbox theme contains a file called 'image-with-text'.
+Try to render the snippet down below.
+-->
+
+
+
+
+
+<!-- 
+b) When you render the snippet from above, you can pass an additional parameter called 'orientation'.
+Try to render the snippet again, but this time set the orientation to 'reverse'.
+-->
+
+
+ 
+
+
+<!-- 
+c)
+In previous exercises, we already rendered product cards. (e.g. when we learned about for loops)
+The markup is now stored in a snippet called 'product-component'.
+As in input parameter, this snippet takes the 'product' to be displayed.
+
+Asssign a new variable, holding the 'dark-denim-top' product.
+Then render the 'product-component' snippet with the denim-top product-object as an input. 
+-->
+
+  
+  
+
+<!-- 
+d) Let's repeat the same in a for-loop. 
+Inside the unordered list, try to render a 'product-component' for each product in the Women's collection.
+-->
+
+  <ul class="grid grid--uniform grid--view-items">
+    
+
+  
+  </ul>
+  
+ 
+  
+  
+
+<!-- 
+e) 
+Down below you find a variable that holds a list of different elements/sections, that we want to display.
+You can split this variable by the comma ',' and use a for-loop to go over each element.
+Inside the for-loop, use a Liquid-Switch-Statemet to check the current element, and render the corresponding snippet file.
+(ex: current element is 'gallery' -> render 'gallery' ... and so forth)
+
+To confirm your solution works, you can re-order the elements in the section list, or add an additional gallery at the end.
+-->
+
+{% assign section_list = "gallery,testimonials,image-with-text"%}
+
+
+
+
+</section>
+{% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- 🥳 🥂  --> 
+
+
+
