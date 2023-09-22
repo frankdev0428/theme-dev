@@ -50,15 +50,9 @@ Try to create an h2-element, displaying the title of a specific product of your 
 </section>
 
 
-
-
-
-
-
-{% comment %}
 <section class="challenge">
 <!--Challenge 2: Filters -->
-
+ 
   <!--  
   {% raw %}
   Hint:
@@ -69,13 +63,13 @@ Try to create an h2-element, displaying the title of a specific product of your 
   {{ product.title }} instead of {{ all_products['my-awesome-tshirt'].title }}, which is a lot cleaner and easier to read.
   {% endraw %}
   --> 
-
-
+   
 <!-- 
 a.) Assign a new variable that contains a specific product of your choice.  
     Then create a div-element and display the product title, by using the variable you've just assigned. 
 -->
-
+{% assign product = all_products['chequered-red-shirt'] %}
+<div>{{ product.title  | upcase  }}</div>
 
 
 
@@ -91,7 +85,7 @@ b.) Now use a Liquid Filter to turn every letter of the product title into an up
 c.) Create a paragraph tag and put out the product price. 
 Use a Filter to properly format the price and display it in the stores' currency.
 -->
-
+  <p>Price : {{ product.price | money_with_currency }}</p>
 
 
 
@@ -104,7 +98,7 @@ Try to paste this URL into your browser and see if you can view the image.
 Hint: try to use a media filter called img_url. 
 If you don't add any additional parameters to the filter, the displayed image will be small in resolution, but that's okay for now.
 -->
-
+<p>The URL of the featured image is : {{ product.featured_image | image_url   }}</p>
 
 
 
@@ -115,7 +109,7 @@ e.) Shopify can serve images in various dimensions, which can be relevant for th
 Copy your solution from above, and render the same image URL one more time down below. 
 This time try to use the img_url filter in a way so that the image width is 200px (basewidth 200px, height auto). 
 !-->
-
+<p>The URL of the featured image is : {{ product.featured_image | image_url: width : 400  }}</p>
 
 
 
@@ -126,10 +120,9 @@ f.) So far we've just been rendering the Image URLs in plain text.
 Now we want to actually display both images (the small preview image, and the 200x width)
 Copy your solutions from above try to also add an img_tag filter at the end, to display them.
 -->
+{{ product.featured_image | img_url | img_tag: 'Original Image' }}
 
-
-
-
+{{ product.featured_image | img_url: '200x' | img_tag: '200px Width Image' }}
 
 
   
@@ -156,14 +149,14 @@ To get the correct ID, you may want to take a look at the product object and a p
 This variant object will hold the correct ID.
 --> 
 
-
+<a href="/cart/add?id={{ product.first_available_variant.id }}" class="btn">Add to Cart</a>
 
   
   
   
 <!-- End Challenge 2 -->
 </section>
-{% endcomment %}
+
 
 
 
