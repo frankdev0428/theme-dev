@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@shopify/themekit": "^1.1.9"
+  }
+}
