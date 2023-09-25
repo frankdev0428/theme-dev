@@ -262,7 +262,6 @@ Here are the subtasks:
 
 
 
-{% comment %}
 <section class="challenge">
 <!--Challenge 4: Arrays and For-Loops-->
 
@@ -313,23 +312,31 @@ Create an unordered list (<ul>), with 3 list items (<li>) to display the tags.
 For this first task, try to access the elements directly, by using their index and the square-bracket-notation. 
 (As seen in the example above, and not by using a for loop)
 -->
+{% assign products = all_products['ocean-blue-shirt'] %}
+<ul>
+  <li>{{ products.tags[0] }}</li>
+  <li>{{ products.tags[1] }}</li>
+  <li>{{ products.tags[2] }}</li>
+</ul>
 
 
-
-  
-  
-    
 <!--
 b.) 
 Now try to repeat the exercise above, by using a for-loop.
 (for each tag in the product.tags, render a list item. )
 -->
+{% assign tags = all_products['ocean-blue-shirt'].tags %}
+
+<ul>
+  {% for tag in tags %}
+  <li>{{ tag }} : {{ forloop.index }}</li>
+  {% endfor %}
 
 
+</ul>
+<br><br>
 
-
-  
-<br><br><!--
+<!--
 c.) 
 Adjust your for-loop, so that the tag-name and the position are displayed. (starting with #1). 
 Expected outcome:
@@ -353,25 +360,23 @@ d.) Adjust your for-loop, to render the "limited" tag in red-text color.
     hint: You can use inline CSS and an if-condition based on the tag name. 
 -->
 
-  
-
-
-  
-
-
-
-  
+<ul>
+  {% for tag in tags %}
+  <li style="{% if tag contains 'limited' %} color: red;{% endif %}">{{ tag }} : {{ forloop.index }}</li>
+  {% endfor %}
+</ul>
+ 
 <!-- 
 e.) Create an h2-element and use a liquid filter to display the size of the array (number of elements).
 -->
-
+   <h2>{{ tags | size }}</h2>
   
   
   
 <!-- End Challenge 4 -->
 </section>
 
-{% endcomment %}
+
 
 
 
