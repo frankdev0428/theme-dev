@@ -1,3 +1,4 @@
+
 {%- comment -%} 
 Befor starting, please make sure you have:
 
@@ -12,7 +13,7 @@ Befor starting, please make sure you have:
 
 
 
-
+{% comment %}
 <section class="challenge">
 <!--Challenge 1: Data Output -->
 
@@ -20,7 +21,7 @@ Befor starting, please make sure you have:
 a.) Create an h1-element containing the Name of your Online-Shop using Liquid.
 -->
   
-   <h1>{{  shop.name}}</h1>
+  
      
 
   
@@ -30,7 +31,6 @@ b.) Create an H2 element that displays the number of items in the cart
 Expected result: <h2> Your cart contains X item(s) </h2>
 -->
 
- <h2>Your cart contains ({{ cart.item_count }} items)</h2>
 
 
 
@@ -42,15 +42,14 @@ The product handle can be found in the URL, when you visit a product page.
 
 Try to create an h2-element, displaying the title of a specific product of your choice. 
 -->
-   {% assign product_handle = 'floral-white-top' %}  
-   {% if all_products[product_handle] %} 
-    <h2> {{ all_products[product_handle].title }}</h2>
-   {% endif %}
+
 <!-- End Challenge 1 -->
 </section>
 
-
+{% endcomment %}
+{% comment %}}
 <section class="challenge">
+  
 <!--Challenge 2: Filters -->
  
   <!--  
@@ -68,10 +67,6 @@ Try to create an h2-element, displaying the title of a specific product of your 
 a.) Assign a new variable that contains a specific product of your choice.  
     Then create a div-element and display the product title, by using the variable you've just assigned. 
 -->
-{% assign product = all_products['chequered-red-shirt'] %}
-<div>{{ product.title  | upcase  }}</div>
-
-
 
 <!-- 
 b.) Now use a Liquid Filter to turn every letter of the product title into an upper-case lettter.
@@ -85,7 +80,7 @@ b.) Now use a Liquid Filter to turn every letter of the product title into an up
 c.) Create a paragraph tag and put out the product price. 
 Use a Filter to properly format the price and display it in the stores' currency.
 -->
-  <p>Price : {{ product.price | money_with_currency }}</p>
+  
 
 
 
@@ -98,7 +93,7 @@ Try to paste this URL into your browser and see if you can view the image.
 Hint: try to use a media filter called img_url. 
 If you don't add any additional parameters to the filter, the displayed image will be small in resolution, but that's okay for now.
 -->
-<p>The URL of the featured image is : {{ product.featured_image | image_url   }}</p>
+
 
 
 
@@ -109,7 +104,7 @@ e.) Shopify can serve images in various dimensions, which can be relevant for th
 Copy your solution from above, and render the same image URL one more time down below. 
 This time try to use the img_url filter in a way so that the image width is 200px (basewidth 200px, height auto). 
 !-->
-<p>The URL of the featured image is : {{ product.featured_image | image_url: width : 400  }}</p>
+
 
 
 
@@ -120,9 +115,6 @@ f.) So far we've just been rendering the Image URLs in plain text.
 Now we want to actually display both images (the small preview image, and the 200x width)
 Copy your solutions from above try to also add an img_tag filter at the end, to display them.
 -->
-{{ product.featured_image | img_url | img_tag: 'Original Image' }}
-
-{{ product.featured_image | img_url: '200x' | img_tag: '200px Width Image' }}
 
 
   
@@ -149,7 +141,7 @@ To get the correct ID, you may want to take a look at the product object and a p
 This variant object will hold the correct ID.
 --> 
 
-<a href="/cart/add?id={{ product.first_available_variant.id }}" class="btn">Add to Cart</a>
+
 
   
   
@@ -157,6 +149,7 @@ This variant object will hold the correct ID.
 <!-- End Challenge 2 -->
 </section>
 
+{%  endcomment %}
 
 
 
@@ -165,8 +158,7 @@ This variant object will hold the correct ID.
 
 
 
-
-
+  {%  comment %}
 <section class="challenge">
 <!-- Challenge 3: More advanced data output and Logic tags -->
 
@@ -179,8 +171,6 @@ Therefore, we have to practise maintaining an overview, and learn how to navigat
 
 <!--
 To get started, remove the liquid-comment-tags down below and work directly in the provided markup.
-
-
 
 Here are the subtasks:
   a.) Fill in the product title using Liquid
@@ -204,13 +194,11 @@ Here are the subtasks:
 
 
 
-{% assign product = all_products['classic-varsity-top'] %}
+{% assign product = all_products['yellow-wool-jumper'] %}
 
 {% assign isSoldOut = false %}
-{% if product.first.available_variant.available  %}
-  {% assign isSoldOut = true %}
-  {% else  %}
-    {%  assign  isSoldOut = false %} 
+{% if product.available == false %}
+   {% assign isSoldOut = true %}
 {% endif %}
 
 
@@ -220,7 +208,7 @@ Here are the subtasks:
     <div class="grid-view-item product-card {% if isSoldOut %} grid-view-item--sold-out{% endif %}">
       
       <a class="grid-view-item__link grid-view-item__image-container full-width-link"
-          href={{ product.url }}>
+          href= {{ product.url }}> 
       </a>
 
       <div class="grid-view-item__image-wrapper product-card__image-wrapper">
@@ -231,7 +219,7 @@ Here are the subtasks:
 
       <dl class="price price--listing {% if isSoldOut %}price--sold-out{% endif %} ">
         <div class="price__regular">
-          <span class="price-item price-item--regular"> {{ product.price }} </span>
+          <span class="price-item price-item--regular"> {{ product.price | money }} </span>
         </div>
 
         <div class="price__badges price__badges--listing">
@@ -256,12 +244,13 @@ Here are the subtasks:
 </section>
 
 
+{%  endcomment %}
 
 
 
 
 
-
+{% comment %}
 <section class="challenge">
 <!--Challenge 4: Arrays and For-Loops-->
 
@@ -312,31 +301,23 @@ Create an unordered list (<ul>), with 3 list items (<li>) to display the tags.
 For this first task, try to access the elements directly, by using their index and the square-bracket-notation. 
 (As seen in the example above, and not by using a for loop)
 -->
-{% assign products = all_products['ocean-blue-shirt'] %}
-<ul>
-  <li>{{ products.tags[0] }}</li>
-  <li>{{ products.tags[1] }}</li>
-  <li>{{ products.tags[2] }}</li>
-</ul>
 
 
+
+  
+  
+    
 <!--
 b.) 
 Now try to repeat the exercise above, by using a for-loop.
 (for each tag in the product.tags, render a list item. )
 -->
-{% assign tags = all_products['ocean-blue-shirt'].tags %}
-
-<ul>
-  {% for tag in tags %}
-  <li>{{ tag }} : {{ forloop.index }}</li>
-  {% endfor %}
 
 
-</ul>
-<br><br>
 
-<!--
+
+  
+<br><br><!--
 c.) 
 Adjust your for-loop, so that the tag-name and the position are displayed. (starting with #1). 
 Expected outcome:
@@ -360,23 +341,25 @@ d.) Adjust your for-loop, to render the "limited" tag in red-text color.
     hint: You can use inline CSS and an if-condition based on the tag name. 
 -->
 
-<ul>
-  {% for tag in tags %}
-  <li style="{% if tag contains 'limited' %} color: red;{% endif %}">{{ tag }} : {{ forloop.index }}</li>
-  {% endfor %}
-</ul>
- 
+  
+
+
+  
+
+
+
+  
 <!-- 
 e.) Create an h2-element and use a liquid filter to display the size of the array (number of elements).
 -->
-   <h2>{{ tags | size }}</h2>
+
   
   
   
 <!-- End Challenge 4 -->
 </section>
 
-
+{% endcomment %}
 
 
 
@@ -385,7 +368,7 @@ e.) Create an h2-element and use a liquid filter to display the size of the arra
 
 
 
-{% comment %}
+
 <section class="challenge">
 <!--Challenge 5: For-Loops -->
 
@@ -403,8 +386,6 @@ Also note that collection object might have more properties than just the contai
 
 
 
-
-
   
 <!-- 
 b.) Now also append the current iteration index to the output
@@ -414,8 +395,12 @@ Expected result:
 "Product title" 3
 ...
 -->
-
-  
+{% comment %} {{ collections['women'].title }}
+<ul>
+  {% for product in collections['women'].products %}
+   <li> {{forloop.index}}. {{ product.title }} </li>
+  {% endfor %}
+</ul> {% endcomment %}
 
   
 <!-- 
@@ -423,13 +408,25 @@ c.)
 Imagine we only want to display the first 8 products in that collection.
 Try to cancel your iteration after the 8th element using the "break" keyword.
 -->
-  
+{% comment %} <ul>
+  {% for product in collections['women'].products limit:8%}
+    
+   <li> {{forloop.index}}. {{ product.title }} </li>
+  {% endfor %}
+</ul> {% endcomment %}
 
   
 <!-- 
 d.) Adjust your for-loop to display all products in the collection that are available
 -->
 
+{% comment %} <ul>
+  {% for product in collections['women'].products limit:8%}
+    {% if product.available %}
+    <li> {{forloop.index}}. {{ product.title }} </li>
+    {% endif %}
+  {% endfor %}
+</ul> {% endcomment %}
 
   
 
@@ -441,10 +438,11 @@ e.)
   Then also implement logic to skip all products, that are currently unavailable. 
 -->
   
-
-  {% comment %}
-  <ul class="grid grid--uniform grid--view-items">
   
+  
+  <ul class="grid grid--uniform grid--view-items">
+    {% for product in collections['women'].products %}
+      {% if product.available %}
     <li class="grid__item small--one-half medium-up--one-quarter" style="max-width:20%">
         <div class="grid-view-item product-card {% unless product.available %} grid-view-item--sold-out{% endunless %}">
       <a class="grid-view-item__link grid-view-item__image-container full-width-link"
@@ -473,15 +471,16 @@ e.)
       </dl>
     </div>
   </li>
-  
+      {% endif %}
+{% endfor %}
 </ul>
-{% endcomment %}
 
+  
 
   
 <!-- End Challenge 5 -->
 </section>
-{% endcomment %}
+
 
 
 
