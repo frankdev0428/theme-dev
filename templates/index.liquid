@@ -366,7 +366,7 @@ e.) Create an h2-element and use a liquid filter to display the size of the arra
  
 
 
-
+{% comment %}
 
 
 <section class="challenge">
@@ -438,9 +438,9 @@ e.)
   Then also implement logic to skip all products, that are currently unavailable. 
 -->
   
+
   
-  
-  <ul class="grid grid--uniform grid--view-items">
+  {% comment %} <ul class="grid grid--uniform grid--view-items">
     {% for product in collections['women'].products %}
       {% if product.available %}
     <li class="grid__item small--one-half medium-up--one-quarter" style="max-width:20%">
@@ -474,42 +474,34 @@ e.)
       {% endif %}
 {% endfor %}
 </ul>
+ {% endcomment %}
 
-  
 
   
 <!-- End Challenge 5 -->
 </section>
+{% endcomment %}
 
 
-
-
-
-
-
-
-
-{% comment %}
 <section class="challenge">
 <!-- Challenge 6 - Working with Texts -->
 
-
 {% assign product_list = 'tshirt, pullover, pants' %}
-
+{{ product_list }}
 <br><!--
 a) Assign a new variable called 'extended_product_list', which is based on the initial string, but we also append ', shoes'.
    To confirm your solution, put out your new variable to the front-end.
 -->
-
-
-  
-<br><!--
+  {% assign extended_product_list = product_list | append: ' , shoes'  %} 
+   {{ extended_product_list }}
+<br>
+<!--
 b)  Try to assign a 3rd variable called 'new_product_list', which is based on your extended_product_list.
     The word 'pullover' should be replaced by 'sweater'. 
     To confirm it worked, also display the 'new_product_list' on the front-end.
 --> 
-
-
+ {% assign new_product_list = extended_product_list | replace: 'pullover', 'sweater' %}
+ {{ new_product_list }}
 <!--
 c) Down below, we find a bit of customer data.
   {% assign customer_data = 'John Doe, 28 years, repeated-customer, order-value:100, city:NYC' %}
@@ -527,7 +519,7 @@ c) Down below, we find a bit of customer data.
 
 --> 
 
-{% comment %}
+
   
   {% comment%} check if the customer is a repeated-customer {% endcomment%}
   {% assign is_repeated_customer = false %}
@@ -551,7 +543,7 @@ c) Down below, we find a bit of customer data.
     
   </div>
 
-{% endcomment %}
+
   
 
 
@@ -610,7 +602,7 @@ e)
   
 <!--End Challenge 6 -->
 </section>
-{% endcomment %}
+
 
 
 
